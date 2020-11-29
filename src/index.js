@@ -1,11 +1,13 @@
-// function helloWorld() {
-//     let element = document.createElement('div');
 
-//     element.innerHTML = 'Hello world';
+import React from "react";
+import ReactDOM from "react-dom";
+import "../src/index.css";
+import Home from './js/pages/Home.jsx';
 
-//     return element;
-// }
+class App extends React.Component {
+  render() {
+    return <div><Home /></div>;
+  }
+}
 
-// document.body.appendChild(helloWorld());
-
-import Article from "./js/components/Article.jsx";
+ReactDOM.render(<App />, document.getElementById("container"));
