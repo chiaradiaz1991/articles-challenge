@@ -3,24 +3,32 @@ import React, { useState, useEffect } from "react";
 // Components
 import CheckInput from "../components/CheckInput/CheckInput.jsx";
 import Sort from "../components/Sort/Sort.jsx";
-import Article from "../components/Article/Article.jsx";
+import Articles from "../components/Articles/Articles.jsx";
 
+// APIs
 const API_SPORTS = "http://localhost:6010/articles/sports";
 const API_FASHION = "http://localhost:6010/articles/fashion";
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const [dataSports, setDataSports] = useState([]);
+  const [dataFashion, setDataFashion] = useState([]);
+  const [selectedInput, setSelectedInput] = useState("all");
   const [loading, setLoading] = useState(false);
   const [Error, setError] = useState(false);
 
-  
   const fetchData = async () => {
     try {
-      const response = await fetch(API_SPORTS);
-      console.log({response})
-      const resJson = await response.json();
-      console.log({resJson})
-      setData(resJson.articles);
+      const [sports, fashion] = await Promise.all([
+        fetch(API_SPORTS),
+        fetch(API_FASHION),
+      ]);
+      const sportsJson = await sports.json();
+      const fashionJson = await fashion.json();
+
+      setDataSports(sportsJson.articles);
+      setDataFashion(fashionJson.articles);
+      setData([...sportsJson.articles, ...fashionJson.articles]);
       setLoading(false);
     } catch (error) {
       setIsError(true);
@@ -28,32 +36,38 @@ const Home = () => {
     }
   };
 
-  // Promise.all([
-  //   fetch(url1).then(value => value.json()),
-  //   fetch(url2).then(value => value.json())
-  //   ])
-  //   .then((value) => {
-  //      console.log(value)
-  //     //json response
-  //   })
-  //   .catch((err) => {
-  //       console.log(err);
-  //   });
-
-
-  console.log({data})
-
   useEffect(() => {
     setLoading(true);
     setError(false);
     fetchData();
   }, []);
 
+  const handleStoreValues = (clicked, name) => {
+    if (clicked && name == "sports") {
+      setSelectedInput(name);
+    } else if (clicked && name == "fashion") {
+      setSelectedInput(name);
+    } else {
+      setSelectedInput("all");
+    }
+  };
+
   return (
     <div className="mainWrapper">
-      <CheckInput />
+      <CheckInput
+        storeValues={(clicked, name) => handleStoreValues(clicked, name)}
+      />
       <Sort />
-      <Article />
+      <Articles
+        data={
+          selectedInput === "sports"
+            ? dataSports
+            : selectedInput === "fashion"
+            ? dataFashion
+            : data
+        }
+        selectedInput={selectedInput}
+      />
     </div>
   );
 };

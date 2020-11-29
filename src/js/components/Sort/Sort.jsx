@@ -1,5 +1,9 @@
 import React from "react";
 
-const Sort = () => <div className="">I am the Sort</div>;
+const Sort = (props) => {
+
+
+  return <div className="">I am the Sort</div>;
+};
 
 export default Sort;
