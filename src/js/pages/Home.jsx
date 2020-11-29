@@ -16,6 +16,7 @@ const Home = () => {
   const [selectedInput, setSelectedInput] = useState("all");
   const [loading, setLoading] = useState(false);
   const [Error, setError] = useState(false);
+  const [sortBy, setSortBy] = useState("asc");
 
   const fetchData = async () => {
     try {
@@ -42,7 +43,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const handleStoreValues = (clicked, name) => {
+  const handleStoreInput = (clicked, name) => {
     if (clicked && name == "sports") {
       setSelectedInput(name);
     } else if (clicked && name == "fashion") {
@@ -52,12 +53,17 @@ const Home = () => {
     }
   };
 
+  const sortResults = (orderBy) => {
+    setSortBy(orderBy);
+  };
+
+
   return (
     <div className="mainWrapper">
       <CheckInput
-        storeValues={(clicked, name) => handleStoreValues(clicked, name)}
+        storeValues={(clicked, name) => handleStoreInput(clicked, name)}
       />
-      <Sort />
+      <Sort orderBy={(orderBy) => sortResults(orderBy)} />
       <Articles
         data={
           selectedInput === "sports"
@@ -67,6 +73,7 @@ const Home = () => {
             : data
         }
         selectedInput={selectedInput}
+        orderBy={sortBy}
       />
     </div>
   );
