@@ -10,6 +10,7 @@
   .content {
     display: flex;
     align-items: flex-start;
+    flex-direction: column;
   }
 }
 
@@ -23,5 +24,9 @@
 @include respond(desktop) {
   .mainWrapper {
     width: 70%;
+    .content {
+      display: flex;
+      flex-direction: row;
+    }
   }
 }

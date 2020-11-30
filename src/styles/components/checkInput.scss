@@ -8,4 +8,19 @@
     text-decoration: underline;
     margin-left: $margin;
   }
+  .checkInputContent {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@include respond(desktop) {
+  .checkInputContainer {
+    .checkInputTitle {
+    }
+    .checkInputContent {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }

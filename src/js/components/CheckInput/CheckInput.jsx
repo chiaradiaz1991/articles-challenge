@@ -15,24 +15,26 @@ const CheckInput = (props) => {
   return (
     <aside className="checkInputContainer">
       <h3 className="checkInputTitle">Data Sources</h3>
-      <label>
-        <input
-          type="checkbox"
-          name="sports"
-          onClick={(e) => handleInputChange(e)}
-          className="checkInput"
-        />
-        Sports
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          name="fashion"
-          onClick={(e) => handleInputChange(e)}
-          className="checkInput"
-        />
-        Fashion
-      </label>
+      <div className="checkInputContent">
+        <label>
+          <input
+            type="checkbox"
+            name="sports"
+            onClick={(e) => handleInputChange(e)}
+            className="checkInput"
+          />
+          Sports
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="fashion"
+            onClick={(e) => handleInputChange(e)}
+            className="checkInput"
+          />
+          Fashion
+        </label>
+      </div>
     </aside>
   );
 };

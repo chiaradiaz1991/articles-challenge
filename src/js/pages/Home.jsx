@@ -42,6 +42,7 @@ const Home = () => {
       setHttpSportsCode(sports.status);
       setHttpFashionCode(fashion.status);
       setErr(false);
+      
       setLoading(false);
     } catch (error) {
       setErrorCode(error);
