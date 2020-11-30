@@ -43,9 +43,10 @@ const Home = () => {
       setHttpFashionCode(fashion.status);
       if (httpSportsCode !== 200 || httpFashionCode !== 200) {
         setErr(true);
+      } else {
+        setErr(false);
       }
       setLoading(false);
-      setErr(false);
     } catch (error) {
       setErrorCode(error);
       setErr(true);
