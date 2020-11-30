@@ -5,7 +5,7 @@ import CheckInput from "../components/CheckInput/CheckInput.jsx";
 import Sort from "../components/Sort/Sort.jsx";
 import Articles from "../components/Articles/Articles.jsx";
 import Loading from "../components/Loading/Loading.jsx";
-import Error from '../components/Error/Error.jsx';
+import Error from "../components/Error/Error.jsx";
 
 // APIs
 const API_SPORTS = "http://localhost:6010/articles/sports";
@@ -23,6 +23,8 @@ const Home = () => {
   const [err, setErr] = useState(false);
   const [errorCode, setErrorCode] = useState();
   const [sortBy, setSortBy] = useState("asc");
+  const [httpSportsCode, setHttpSportsCode] = useState();
+  const [httpFashionCode, setHttpFashionCode] = useState();
 
   const fetchData = async () => {
     try {
@@ -30,12 +32,18 @@ const Home = () => {
         fetch(API_SPORTS),
         fetch(API_FASHION),
       ]);
+
       const sportsJson = await sports.json();
       const fashionJson = await fashion.json();
 
       setDataSports(sportsJson.articles);
       setDataFashion(fashionJson.articles);
       setData([...sportsJson.articles, ...fashionJson.articles]);
+      setHttpSportsCode(sports.status);
+      setHttpFashionCode(fashion.status);
+      if (httpSportsCode !== 200 || httpFashionCode !== 200) {
+        setErr(true);
+      }
       setLoading(false);
       setErr(false);
     } catch (error) {
@@ -66,28 +74,35 @@ const Home = () => {
   };
 
   const showLoading = loading && <Loading />;
-  
+  let ErrorText =
+    "Internal Server Error, please contact the administrator or reload the page! :(";
+
   return (
     <div className="mainWrapper">
       {showLoading}
-      {err  && <Error error={errorCode} />}
-      <Sort orderBy={(orderBy) => sortResults(orderBy)} />
-      <div className="content">
-        <CheckInput
-          storeValues={(clicked, name) => handleStoreInput(clicked, name)}
-        />
-        <Articles
-          data={
-            selectedInput === "sports"
-              ? dataSports
-              : selectedInput === "fashion"
-              ? dataFashion
-              : data
-          }
-          selectedInput={selectedInput}
-          orderBy={sortBy}
-        />
-      </div>
+      {err && httpSportsCode !== 200 && httpFashionCode !== 200 ? (
+        <Error error={ErrorText} />
+      ) : (
+        <>
+          <Sort orderBy={(orderBy) => sortResults(orderBy)} />
+          <div className="content">
+            <CheckInput
+              storeValues={(clicked, name) => handleStoreInput(clicked, name)}
+            />
+            <Articles
+              data={
+                selectedInput === "sports"
+                  ? dataSports
+                  : selectedInput === "fashion"
+                  ? dataFashion
+                  : data
+              }
+              selectedInput={selectedInput}
+              orderBy={sortBy}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

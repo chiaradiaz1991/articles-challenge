@@ -4,11 +4,9 @@ import React from "react";
 import "../../../styles/styles.scss";
 
 const Error = ({error}) => {
-  console.log(error)
   return (
     <div className="errorContainer">
-      
-      <h2>Opss! error ${error}</h2>
+      <h2>{error}</h2>
     </div>
   );
 };
