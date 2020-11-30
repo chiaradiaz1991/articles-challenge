@@ -5,7 +5,6 @@ import "../../../styles/styles.scss";
 const IMAGE_PLACEHOLDER = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Eopsaltria_australis_-_Mogo_Campground.jpg/1200px-Eopsaltria_australis_-_Mogo_Campground.jpg'
 
 const Article = ({ image, title, date, content }) => {
-  console.log({image})
   const emptyImage = image === "" ? IMAGE_PLACEHOLDER : image; 
   return (
     <article className="articleContainer">

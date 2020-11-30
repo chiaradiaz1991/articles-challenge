@@ -23,7 +23,6 @@ const Home = () => {
   const [err, setErr] = useState(false);
   const [errorCode, setErrorCode] = useState();
   const [sortBy, setSortBy] = useState("asc");
-  console.log({errorCode})
 
   const fetchData = async () => {
     try {

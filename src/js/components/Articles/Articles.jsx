@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Article from "../Article/Article.jsx";
+import "dayjs/locale/sv";
+import dayjs from "dayjs";
 
 // styles
-import '../../../styles/styles.scss';
-
+import "../../../styles/styles.scss";
 
 const Articles = (props) => {
   const { data, selectedInput, orderBy } = props;
   const [sorted, setSorted] = useState([]);
 
   const dateParsed = data.map((element) => {
-    const item = Object.assign({}, element, {
-      parsedDate: new Date(element.date),
-    });
+    // if the date is not valid, I will not show it
+    const validDates = dayjs(element.date).isValid();
+    const item =
+      validDates &&
+      Object.assign({}, element, {
+        parsedDate: new Date(element.date),
+      });
     return item;
   });
 
@@ -31,15 +36,13 @@ const Articles = (props) => {
     return articlesSorted;
   };
 
-
   useEffect(() => {
     sortedData(dateParsed);
   }, [orderBy, selectedInput]);
 
-
   return (
     <div className="articlesContainer">
-      {selectedInput && selectedInput === "all" && sorted.length === 0
+      {selectedInput && sorted.length === 0
         ? data.map((el) => {
             return (
               <Article
@@ -51,40 +54,19 @@ const Articles = (props) => {
               />
             );
           })
-        : data.map((el) => {
-            return (
-              <Article
-                key={el.id}
-                image={el.image}
-                title={el.title}
-                date={el.date}
-                content={el.preamble}
-              />
-            );
-          })}
-      {sorted.length > 0 && selectedInput === "all"
-        ? sorted?.map((el) => {
-            return (
-              <Article
-                key={el.id}
-                image={el.image}
-                title={el.title}
-                date={el.date}
-                content={el.preamble}
-              />
-            );
-          })
-        : sorted.map((el) => {
-            return (
-              <Article
-                key={el.id}
-                image={el.image}
-                title={el.title}
-                date={el.date}
-                content={el.preamble}
-              />
-            );
-          })}
+        : sorted
+            .filter((filtered) => Object.values(filtered).length !== 0)
+            .map((el) => {
+              return (
+                <Article
+                  key={el.id}
+                  image={el.image}
+                  title={el.title}
+                  date={el.date}
+                  content={el.preamble}
+                />
+              );
+            })}
     </div>
   );
 };
