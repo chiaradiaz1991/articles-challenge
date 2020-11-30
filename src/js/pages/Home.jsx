@@ -41,11 +41,7 @@ const Home = () => {
       setData([...sportsJson.articles, ...fashionJson.articles]);
       setHttpSportsCode(sports.status);
       setHttpFashionCode(fashion.status);
-      if (httpSportsCode !== 200 || httpFashionCode !== 200) {
-        setErr(true);
-      } else {
-        setErr(false);
-      }
+      setErr(false);
       setLoading(false);
     } catch (error) {
       setErrorCode(error);
