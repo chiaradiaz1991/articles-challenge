@@ -4,10 +4,15 @@ import React, { useState, useEffect } from "react";
 import CheckInput from "../components/CheckInput/CheckInput.jsx";
 import Sort from "../components/Sort/Sort.jsx";
 import Articles from "../components/Articles/Articles.jsx";
+import Loading from "../components/Loading/Loading.jsx";
+import Error from '../components/Error/Error.jsx';
 
 // APIs
 const API_SPORTS = "http://localhost:6010/articles/sports";
 const API_FASHION = "http://localhost:6010/articles/fashion";
+
+// styles
+import "../../styles/styles.scss";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -15,8 +20,10 @@ const Home = () => {
   const [dataFashion, setDataFashion] = useState([]);
   const [selectedInput, setSelectedInput] = useState("all");
   const [loading, setLoading] = useState(false);
-  const [Error, setError] = useState(false);
+  const [err, setErr] = useState(false);
+  const [errorCode, setErrorCode] = useState();
   const [sortBy, setSortBy] = useState("asc");
+  console.log({errorCode})
 
   const fetchData = async () => {
     try {
@@ -31,15 +38,17 @@ const Home = () => {
       setDataFashion(fashionJson.articles);
       setData([...sportsJson.articles, ...fashionJson.articles]);
       setLoading(false);
+      setErr(false);
     } catch (error) {
-      setIsError(true);
+      setErrorCode(error);
+      setErr(true);
       setLoading(false);
     }
   };
 
   useEffect(() => {
     setLoading(true);
-    setError(false);
+    setErr(false);
     fetchData();
   }, []);
 
@@ -57,24 +66,29 @@ const Home = () => {
     setSortBy(orderBy);
   };
 
-
+  const showLoading = loading && <Loading />;
+  
   return (
     <div className="mainWrapper">
-      <CheckInput
-        storeValues={(clicked, name) => handleStoreInput(clicked, name)}
-      />
+      {showLoading}
+      {err  && <Error error={errorCode} />}
       <Sort orderBy={(orderBy) => sortResults(orderBy)} />
-      <Articles
-        data={
-          selectedInput === "sports"
-            ? dataSports
-            : selectedInput === "fashion"
-            ? dataFashion
-            : data
-        }
-        selectedInput={selectedInput}
-        orderBy={sortBy}
-      />
+      <div className="content">
+        <CheckInput
+          storeValues={(clicked, name) => handleStoreInput(clicked, name)}
+        />
+        <Articles
+          data={
+            selectedInput === "sports"
+              ? dataSports
+              : selectedInput === "fashion"
+              ? dataFashion
+              : data
+          }
+          selectedInput={selectedInput}
+          orderBy={sortBy}
+        />
+      </div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+// styles
+import "../../../styles/styles.scss";
 
 const CheckInput = (props) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -11,7 +13,8 @@ const CheckInput = (props) => {
   };
 
   return (
-    <div className="checkInputContainer">
+    <aside className="checkInputContainer">
+      <h3 className="checkInputTitle">Data Sources</h3>
       <label>
         <input
           type="checkbox"
@@ -21,14 +24,16 @@ const CheckInput = (props) => {
         />
         Sports
       </label>
-      <input
-        type="checkbox"
-        name="fashion"
-        onClick={(e) => handleInputChange(e)}
-        className="checkInput"
-      />
-      <label>Fashion</label>
-    </div>
+      <label>
+        <input
+          type="checkbox"
+          name="fashion"
+          onClick={(e) => handleInputChange(e)}
+          className="checkInput"
+        />
+        Fashion
+      </label>
+    </aside>
   );
 };
 

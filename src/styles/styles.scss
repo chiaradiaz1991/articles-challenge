@@ -1,0 +1,13 @@
+
+//global
+@import './global/global.scss';
+@import './mixins/mixins.scss';
+
+//pages
+@import './pages/home.scss';
+
+//components
+@import './components/article.scss';
+@import './components/articles.scss';
+@import './components/checkInput.scss';
+@import './components/sort.scss';

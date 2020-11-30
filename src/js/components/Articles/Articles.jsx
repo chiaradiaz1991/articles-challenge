@@ -1,39 +1,45 @@
 import React, { useEffect, useState } from "react";
 import Article from "../Article/Article.jsx";
-import "dayjs/locale/sv";
-import dayjs from "dayjs";
-// const locale = dayjs.locale('sv');
+
+// styles
+import '../../../styles/styles.scss';
+
 
 const Articles = (props) => {
   const { data, selectedInput, orderBy } = props;
-  const [ sorted, setSorted] = useState('');
-
+  const [sorted, setSorted] = useState([]);
 
   const dateParsed = data.map((element) => {
-    return { ...element, date: dayjs(element.date).locale("sv-se").format() };
+    const item = Object.assign({}, element, {
+      parsedDate: new Date(element.date),
+    });
+    return item;
   });
 
   const sortedData = (articles) => {
-    let articlesSored;
+    let articlesSorted;
     if (orderBy == "asc") {
-      articlesSored= articles.sort((a, b) => new Date(a.date) - new Date(b.date));
+      articlesSorted = articles.sort(
+        (a, b) => new Date(a.parsedDate) - new Date(b.parsedDate)
+      );
     } else if (orderBy == "des") {
-      articlesSored= articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+      articlesSorted = articles.sort(
+        (a, b) => new Date(b.parsedDate) - new Date(a.parsedDate)
+      );
     }
-    setSorted(articlesSored)
-    return articlesSored;
+    setSorted(articlesSorted);
+    return articlesSorted;
   };
 
-  console.log({sorted})
+
   useEffect(() => {
     sortedData(dateParsed);
-  }, [orderBy]);
+  }, [orderBy, selectedInput]);
 
 
   return (
-    <div>
-      {selectedInput === "all"
-      //sorted.map
+    <div className="articlesContainer">
+      {selectedInput && selectedInput === "all" && sorted.length === 0
         ? data.map((el) => {
             return (
               <Article
@@ -56,18 +62,29 @@ const Articles = (props) => {
               />
             );
           })}
-
-      {/* {dataSports && selectedInput == 'sports' &&
-        dataSports.map((el) => {
-          return (
-            <Article
-              image={el.image}
-              title={el.title}
-              date={el.date}
-              content={el.preamble}
-            />
-          );
-        })} */}
+      {sorted.length > 0 && selectedInput === "all"
+        ? sorted?.map((el) => {
+            return (
+              <Article
+                key={el.id}
+                image={el.image}
+                title={el.title}
+                date={el.date}
+                content={el.preamble}
+              />
+            );
+          })
+        : sorted.map((el) => {
+            return (
+              <Article
+                key={el.id}
+                image={el.image}
+                title={el.title}
+                date={el.date}
+                content={el.preamble}
+              />
+            );
+          })}
     </div>
   );
 };

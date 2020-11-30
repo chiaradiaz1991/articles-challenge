@@ -1,0 +1,11 @@
+.checkInputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-content: center;
+  .checkInputTitle {
+    font-size: 16px;
+    text-decoration: underline;
+    margin-left: $margin;
+  }
+}

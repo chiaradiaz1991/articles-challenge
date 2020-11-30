@@ -1,0 +1,60 @@
+.articleContainer {
+  margin: $margin;
+  display: flex;
+  align-items: center;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  animation-duration: 2s;
+  animation-name: fade;
+  .articleImage {
+    width: 250px;
+    height: 200px;
+    margin: $margin;
+  }
+  .articleContent {
+    display: flex;
+    flex-direction: column;
+    .articleHeader {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: $margin;
+      align-items: flex-start;
+      .articleTitle {
+        font-size: 20px;
+        width: 80%;
+      }
+      .articleDate  {
+        width: 20%;
+      }
+    }
+    .articleText {
+      font-size: 18px;
+      margin: $margin;
+    }
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+@include respond(desktop) {
+  .articleContainer {
+    .articleContent {
+      .articleHeader {
+        display: flex;
+        flex-direction: row;
+        .articleTitle {
+          max-width: 400px;
+        }
+      }
+    }
+  }
+}

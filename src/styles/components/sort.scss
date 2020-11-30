@@ -1,0 +1,14 @@
+.sortContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: $margin;
+  .instruction {
+    font-size: 16px;
+    margin: $margin;
+  }
+  .arrowsContainer {
+    display: flex;
+    flex-direction: column;
+  }
+}

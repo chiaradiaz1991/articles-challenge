@@ -1,0 +1,27 @@
+.mainWrapper {
+  width: 80%;
+  margin: 50px auto;
+  background-color: $background-white;
+  box-shadow: $shadow;
+  display: flex;
+  flex-direction: column;
+  border-radius: $border-radius;
+  padding: 50px;
+  .content {
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+@include respond(tablet) {
+  .mainWrapper {
+    width: 80%;
+  }
+}
+
+
+@include respond(desktop) {
+  .mainWrapper {
+    width: 70%;
+  }
+}
