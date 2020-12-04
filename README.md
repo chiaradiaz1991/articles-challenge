@@ -1,7 +1,7 @@
 # How to run the project:
 
--npm install
--npm run start (port 3000)
+npm install
+npm run start (port 3000)
 
 
 
